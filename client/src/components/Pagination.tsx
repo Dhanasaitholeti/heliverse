@@ -15,13 +15,49 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
+    const displayRange = 2; // Number of pages to display on each side of the current page
 
-    for (let i = 1; i <= totalPages; i++) {
+    // Display pages on the left of the current page
+    for (
+      let i = Math.max(1, currentPage - displayRange);
+      i < currentPage;
+      i++
+    ) {
       pageNumbers.push(
         <Button
           key={i}
-          variant={currentPage === i ? "solid" : "outline"}
-          colorScheme={currentPage === i ? "teal" : "gray"}
+          variant="outline"
+          colorScheme="gray"
+          onClick={() => handlePageClick(i)}
+        >
+          {i}
+        </Button>
+      );
+    }
+
+    // Display the current page
+    pageNumbers.push(
+      <Button
+        key={currentPage}
+        variant="solid"
+        colorScheme="teal"
+        onClick={() => handlePageClick(currentPage)}
+      >
+        {currentPage}
+      </Button>
+    );
+
+    // Display pages on the right of the current page
+    for (
+      let i = currentPage + 1;
+      i <= Math.min(totalPages, currentPage + displayRange);
+      i++
+    ) {
+      pageNumbers.push(
+        <Button
+          key={i}
+          variant="outline"
+          colorScheme="gray"
           onClick={() => handlePageClick(i)}
         >
           {i}
