@@ -1,23 +1,26 @@
 import UserCard from "../components/UserCard";
+import useUserData from "../hooks/useUserData";
+import { useSelector } from "react-redux";
+import { RootState } from "../services/state/store";
+import { SimpleGrid } from "@chakra-ui/react";
 
 const HomeScreen = () => {
+  useUserData();
+
+  const { users, error } = useSelector((state: RootState) => state.userReducer);
+
+  if (error) {
+    console.log("error has happened");
+  }
+
   return (
-    <div>
-      <h1>Dhanasai Tholeti</h1>
-      <UserCard
-        user={{
-          id: 1,
-          first_name: "Anet",
-          last_name: "Doe",
-          email: "adoe0@comcast.net",
-          gender: "Female",
-          avatar:
-            "https://robohash.org/sintessequaerat.png?size=50x50&set=set1",
-          domain: "Sales",
-          available: false,
-        }}
-      />
-    </div>
+    <SimpleGrid alignItems={"center"} columns={4}>
+      {users ? (
+        users.map((user) => <UserCard user={user} />)
+      ) : (
+        <p>This is loading lol</p>
+      )}
+    </SimpleGrid>
   );
 };
 
