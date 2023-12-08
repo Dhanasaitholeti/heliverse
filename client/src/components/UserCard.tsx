@@ -8,7 +8,7 @@ interface UserCardProps {
 const UserCard: React.FC<UserCardProps> = ({ user }) => {
   return (
     <Box
-      maxW="sm"
+      maxW="md"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
@@ -21,7 +21,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
           src={user.avatar}
           alt={`${user.first_name} ${user.last_name}`}
           borderRadius="full"
-          boxSize="100px"
+          boxSize="150px"
           bgColor={"blue.500"}
         />
       </Center>

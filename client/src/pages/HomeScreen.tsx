@@ -2,7 +2,8 @@ import UserCard from "../components/UserCard";
 import useUserData from "../hooks/useUserData";
 import { useSelector } from "react-redux";
 import { RootState } from "../services/state/store";
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, Box } from "@chakra-ui/react";
+import Pagination from "../components/Pagination";
 
 const HomeScreen = () => {
   useUserData();
@@ -10,17 +11,26 @@ const HomeScreen = () => {
   const { users, error } = useSelector((state: RootState) => state.userReducer);
 
   if (error) {
-    console.log("error has happened");
+    console.error("An error occurred:", error);
   }
 
   return (
-    <SimpleGrid alignItems={"center"} columns={4}>
-      {users ? (
-        users.map((user) => <UserCard user={user} />)
-      ) : (
-        <p>This is loading lol</p>
+    <Box p={4}>
+      <SimpleGrid spacing={2} minChildWidth={"md"}>
+        {users ? (
+          users.map((user) => <UserCard key={user.id} user={user} />)
+        ) : (
+          <p>Loading...</p>
+        )}
+      </SimpleGrid>
+
+      {users && (
+        <Pagination
+          currentPage={1} // Replace with the actual current page
+          totalPages={10} // Replace with the actual total pages
+        />
       )}
-    </SimpleGrid>
+    </Box>
   );
 };
 

@@ -10,7 +10,9 @@ const useUserData = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/users/");
+        console.log(response.data);
         const userData = response.data.users;
+
         dispatch(updateData({ users: userData, error: false }));
       } catch (error) {
         dispatch(updateData({ users: null, error: true }));
@@ -18,7 +20,7 @@ const useUserData = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, location.pathname]);
 
   //   return {
   //     // Any additional state or values you want to expose
