@@ -5,6 +5,7 @@ import { RootState } from "../services/state/store";
 import { SimpleGrid, Box } from "@chakra-ui/react";
 import Pagination from "../components/Pagination";
 import { useLocation } from "react-router-dom";
+import SearchFilters from "../components/SearchFilters";
 
 const HomeScreen = () => {
   const location = useLocation();
@@ -20,6 +21,8 @@ const HomeScreen = () => {
 
   return (
     <Box p={4}>
+      <SearchFilters />
+
       <SimpleGrid spacing={2} minChildWidth={"md"}>
         {!error ? (
           users ? (
