@@ -5,11 +5,13 @@ import { UserType } from "../../../utils/types/user.types";
 export interface stateType {
   users: UserType[] | null;
   error: boolean;
+  pageCount: number;
 }
 
 const initialState: stateType = {
   users: null,
   error: false,
+  pageCount: 0,
 };
 
 export const UserSlice = createSlice({
@@ -19,6 +21,7 @@ export const UserSlice = createSlice({
     updateData: (state, action: PayloadAction<stateType>) => {
       state.users = action.payload.users;
       state.error = action.payload.error;
+      state.pageCount = action.payload.pageCount;
     },
   },
 });
