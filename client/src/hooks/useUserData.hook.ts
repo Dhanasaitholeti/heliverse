@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { updateData } from "../services/state/slices/User.slice";
 
-const useUserData = (currentPage: number) => {
+const useUserData = (currentPage: number, searchQueryParam?: string) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

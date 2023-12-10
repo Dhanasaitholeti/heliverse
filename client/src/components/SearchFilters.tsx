@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Input,
   FormControl,
@@ -7,10 +7,26 @@ import {
   HStack,
   Container,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const SearchAndFilterComponent = () => {
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Debounce the search by delaying it for 500ms after the user stops typing
+    const delaySearch = setTimeout(() => {
+      // Perform your search operation here with the searchTerm
+      console.log("Searching for:", searchValue);
+
+      if (searchValue != "") navigate(`/?search=${searchValue}`);
+      else navigate("/");
+    }, 2000);
+
+    // Cleanup function to clear the timeout if the user types within the 500ms
+    return () => clearTimeout(delaySearch);
+  }, [searchValue]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);

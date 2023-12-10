@@ -15,15 +15,26 @@ export const feedData = async (req: Request, res: Response) => {
 };
 
 export const getAllUsers = async (req: Request, res: Response) => {
-  const { page: querypage } = req.query;
+  const { page: queryPage, gender, availability, domain, search } = req.query;
   try {
-    const page = querypage ? parseInt(querypage.toString(), 10) : 1;
+    const page = queryPage ? parseInt(queryPage.toString(), 10) : 1;
     const limit = 20;
     const skip = (page - 1) * limit;
 
-    const users = await userModel.find().skip(skip).limit(limit);
-    const totalUsers = await userModel.countDocuments();
+    const filters: any = {}; // Build a filter object based on query parameters
 
+    if (gender) filters.gender = gender;
+    if (availability) filters.available = availability === "true"; // assuming availability is a boolean
+    if (domain) filters.domain = domain;
+    if (search) {
+      filters.$or = [
+        { first_name: { $regex: new RegExp(search as string, "i") } },
+        { last_name: { $regex: new RegExp(search as string, "i") } },
+      ];
+    }
+
+    const users = await userModel.find(filters).skip(skip).limit(limit);
+    const totalUsers = await userModel.countDocuments(filters);
     const totalPages = Math.ceil(totalUsers / limit);
 
     res.status(200).json({

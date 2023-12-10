@@ -1,5 +1,5 @@
 import UserCard from "../components/UserCard";
-import useUserData from "../hooks/useUserData";
+import useUserData from "../hooks/useUserData.hook";
 import { useSelector } from "react-redux";
 import { RootState } from "../services/state/store";
 import { SimpleGrid, Box } from "@chakra-ui/react";
@@ -11,6 +11,7 @@ const HomeScreen = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const pageQueryParam = queryParams.get("page");
+  const searchQueryParam = queryParams.get("search");
   const currentPage = pageQueryParam ? parseInt(pageQueryParam, 10) : 1;
 
   useUserData(currentPage);
